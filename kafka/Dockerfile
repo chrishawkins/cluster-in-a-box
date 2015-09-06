@@ -14,6 +14,7 @@ RUN	wget http://apache.mirrors.ionfish.org/kafka/0.8.2.1/kafka_2.11-0.8.2.1.tgz 
 	cd /usr/local/kafka && echo "auto.create.topics.enable = true" >> config/server.properties
 
 WORKDIR /usr/local/kafka
-ENV KAFKA_HOME=/usr/local/kafka PATH=$PATH:$KAFKA_HOME/bin 
+ENV KAFKA_HOME=/usr/local/kafka
+ENV PATH=$PATH:$KAFKA_HOME/bin 
 ADD startup.sh startup.sh
 CMD ./startup.sh
