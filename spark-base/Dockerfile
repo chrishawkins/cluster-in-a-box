@@ -21,9 +21,9 @@ ENV 	HADOOP_PREFIX=/usr/local/hadoop HADOOP_COMMON_HOME=/usr/local/hadoop HADOOP
 
 # Copy Hadoop Configuration
 WORKDIR /usr/local/hadoop
-COPY	hadoop_conf/* $HADOOP_CONF_DIR/
-RUN 	echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
-	echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_CONF_DIR/yarn-env.sh
+ONBUILD COPY hadoop_conf/* $HADOOP_CONF_DIR/
+ONBUILD RUN 	echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+		echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_CONF_DIR/yarn-env.sh
 
 # Get and untar Spark
 WORKDIR /tmp
@@ -32,7 +32,7 @@ RUN	wget http://d3kbcqa49mib13.cloudfront.net/spark-1.3.0-bin-hadoop2.4.tgz && \
 	mv spark-1.3.0-bin-hadoop2.4 /usr/local/spark
 
 WORKDIR /usr/local/spark
-ADD spark-defaults.conf /usr/local/spark/conf/spark-defaults.conf
+ONBUILD ADD spark-defaults.conf /usr/local/spark/conf/spark-defaults.conf
 
 # Dependenices Script
 ADD configure-spark-jars.sh configure-spark-jars.sh

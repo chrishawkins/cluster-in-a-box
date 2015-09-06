@@ -12,18 +12,18 @@ fi
 docker run -d --dns=$DNS_ADDR -p $DNS_ADDR:53:53/udp --name skydns crosbymichael/skydns -nameserver "$NAMESERVER:53" -domain cluster-in-a-box
 echo "Waiting for DNS server..."
 sleep 1
-docker run -d --dns=$DNS_ADDR -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment docker -s /docker.sock -domain cluster-in-a-box
+docker run -d --dns=$DNS_ADDR -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment docker -s /docker.sock -domain cluster-in-a-box -name skydns
 echo "Waiting for Skydock..."
 sleep 1 
 
 SPARK_SLAVES=8
 
 # Create Spark Cluster
-docker run -d --dns=$DNS_ADDR --name spark-master --hostname spark-master.spark-master.docker.cluster-in-a-box -p 9999:50060  -p 8090:8090 chrishawkins/spark-master
+docker run -d --dns=$DNS_ADDR --name spark-master --hostname spark-master.spark-master.docker.cluster-in-a-box -p 9999:8088  -p 8090:8090 chrishawkins/spark-master
 
 for i in `seq 1 $SPARK_SLAVES`
 do
-	docker run -d --dns=$DNS_ADDR --name spark-$i --hostname spark-$i.spark.docker.cluster-in-a-box chrishawkins/spark
+	docker run -d --dns=$DNS_ADDR --name spark-$i --hostname spark-$i.spark-slave.docker.cluster-in-a-box chrishawkins/spark-slave
 done
 
 echo "Built Spark cluster..."
