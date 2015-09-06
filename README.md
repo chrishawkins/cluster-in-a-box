@@ -13,7 +13,9 @@ To get started, clone the repository and run the `./start-all.sh` script.
 
 ## Finishing Up
 
-To clean up and wipe everything run the `./kill-all.sh` script.
+To clean up and wipe everything run the `./kill-all.sh` script. *Warning:*
+**kill-all** is not an exaggeration. This script unremorsefully kills and rms all
+your Docker containers, whether they are part of the cluster-in-a-box or not.
 
 ## The Containers
 
@@ -22,9 +24,19 @@ The containers are listed here in the order they are started by the
 resolution is handled by [Skydock](https://github.com/crosbymichael/skydock)
 which is a community contribution I am super happy with.
 
-
+| Container Name | Hostname                                               | Description                                                                                                   |
+| -------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| skydns         | skydns.skydns.docker.cluster-in-a-box                  | SkyDNS handles DNS records for the cluster                                                                    |
+| skydock        | skydock.skydock.docker.cluster-in-a-box                | Makes sure containers get registered with SkyDNS for "service discovery" (largely hardcoded in this instance) |
+| spark-master   | spark-master.spark-master.docker.cluster-in-a-box      | Standalone Spark Master, YARN ResourceManager, HDFS NameNode -- a sad single point of failure                 |
+| spark-**n**    | spark-**n**.spark.docker.cluster-in-a-box              | Spark nodes, HDFS DataNodes, YARN NodeManagers -- these guys do the work and there are 8 of them by default   |
+| db             | db.cassandra.docker.cluster-in-a-box                   | A single node Cassandra instance for the purpose of playing with Cassandra tables                             |
+| broker         | broker.kafka.docker.cluster-in-a-box                   | A single node Kafka broker for the purpose of playing with Spark Streaming                                    |
 
 ## License
+
+**Obviously this all relies on a lot of other open source projects, with various
+licenses, but in terms of the Dockerfiles and scripts in here:**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

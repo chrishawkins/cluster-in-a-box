@@ -12,7 +12,7 @@ fi
 docker run -d --dns=$DNS_ADDR -p $DNS_ADDR:53:53/udp --name skydns crosbymichael/skydns -nameserver "$NAMESERVER:53" -domain cluster-in-a-box
 echo "Waiting for DNS server..."
 sleep 1
-docker run -d --dns=$DNS_ADDR -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment docker -s /docker.sock -domain cluster-in-a-box -name skydns
+docker run -d --dns=$DNS_ADDR -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment docker -s /docker.sock -domain cluster-in-a-box
 echo "Waiting for Skydock..."
 sleep 1 
 
