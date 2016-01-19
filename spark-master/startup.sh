@@ -10,8 +10,6 @@ yarn-daemon.sh --config $HADOOP_CONF_DIR start proxyserver
 mr-jobhistory-daemon.sh --config $HADOOP_CONF_DIR start historyserver
 httpfs.sh --config $HADOOP_CONF_DIR start
 
-./configure-spark-jars.sh
-
 echo "Starting Spark Master"
 cd /usr/local/spark && sbin/start-master.sh
 tail -f logs/*
