@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export SLAVE_ID=$(shuf -i1-100000 -n1)
-export IP_ADDR=$(hostname -i)
+export IP_ADDR=$(hostname -I)
 export SPARK_MASTER=$(cat conf/spark-defaults.conf | grep spark.master | tr -s ' ' | cut -d'/' -f3)
 
 echo "Starting Slave ID: $SLAVE_ID; IP Address: $IP_ADDR; Master: $SPARK_MASTER"
