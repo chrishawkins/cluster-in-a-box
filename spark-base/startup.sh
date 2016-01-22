@@ -8,8 +8,6 @@ echo "Starting Slave ID: $SLAVE_ID; IP Address: $IP_ADDR; Master: $SPARK_MASTER"
 hadoop-daemon.sh --config $HADOOP_CONF_DIR start datanode
 yarn-daemon.sh --config $HADOOP_CONF_DIR start nodemanager
 
-./configure-spark-jars.sh
-
 echo "SPARK_PUBLIC_DNS=$IP_ADDR" >> conf/spark-env.sh
 sbin/start-slave.sh $SLAVE_ID $SPARK_MASTER -h $IP_ADDR
 

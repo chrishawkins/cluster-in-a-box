@@ -27,15 +27,12 @@ ONBUILD RUN 	echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_CONF_DIR/hadoop-env.s
 
 # Get and untar Spark
 WORKDIR /tmp
-RUN	wget http://d3kbcqa49mib13.cloudfront.net/spark-1.3.0-bin-hadoop2.4.tgz && \
-	tar xvf spark-1.3.0-bin-hadoop2.4.tgz && \
-	mv spark-1.3.0-bin-hadoop2.4 /usr/local/spark
+RUN	wget http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.6.tgz && \
+	tar xvf spark-1.4.1-bin-hadoop2.6.tgz && \
+	mv spark-1.4.1-bin-hadoop2.6 /usr/local/spark
 
 WORKDIR /usr/local/spark
 ONBUILD ADD spark-defaults.conf /usr/local/spark/conf/spark-defaults.conf
-
-# Dependenices Script
-ADD configure-spark-jars.sh configure-spark-jars.sh
 
 ADD startup.sh /startup.sh
 CMD /startup.sh
